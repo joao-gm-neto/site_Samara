@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>7 Meses com Samara ❤️</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body{
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      min-height:100vh;
+      overflow:hidden;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      color:white;
+    }
+
+    .card{
+      width:90%;
+      max-width:700px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border-radius:25px;
+      padding:40px;
+      text-align:center;
+      box-shadow:0 10px 30px rgba(0,0,0,0.2);
+      position:relative;
+    }
+
+    h1{
+      font-size:3rem;
+      margin-bottom:20px;
+    }
+
+    h2{
+      font-size:2rem;
+      margin-bottom:40px;
+      line-height:1.4;
+    }
+
+    p{
+      font-size:1.2rem;
+      margin-bottom:30px;
+    }
+
+    .btn{
+      border:none;
+      padding:15px 35px;
+      font-size:1.1rem;
+      border-radius:15px;
+      cursor:pointer;
+      transition:0.2s;
+      margin:10px;
+    }
+
+    /* .btn:hover{
+      transform:scale(1.05);
+    } */
+
+    .sim{
+      background:white;
+      color:#ff4f7b;
+      font-weight:bold;
+    }
+
+    .nao{
+      background:#ff4f7b;
+      color:white;
+      position:absolute;/* fixed; */
+      /* z-index:9999; */
+    }
+
+    .heart{
+      font-size:4rem;
+      animation: pulse 1s infinite;
+      margin-bottom:20px;
+    }
+
+    @keyframes pulse{
+      0%{ transform:scale(1);}
+      50%{ transform:scale(1.2);}
+      100%{ transform:scale(1);}
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card" id="card">
+    <div class="heart">❤️</div>
+
+    <div id="conteudo">
+      <h1>7 Meses com Samara</h1>
+
+      <p>
+        Uma pesquisa extremamente séria e científica sobre o relacionamento mais perfeito do planeta.
+      </p>
+
+      <button class="btn sim" onclick="iniciarQuiz()">
+        Iniciar Questionário
+      </button>
+    </div>
+  </div>
+
+<script>
+
+const perguntas = [
+  {
+    pergunta: "O João é o melhor namorado do mundo?",
+    sim: "SIM",
+    nao: "NÃO"
+  },
+
+  {
+    pergunta: "O João tem defeitos?",
+    sim: "NÃO",
+    nao: "SIM"
+  },
+
+  {
+    pergunta: "O João sempre está certo?",
+    sim: "SIM",
+    nao: "NÃO"
+  },
+
+  {
+    pergunta: "Vou fazer uma torta de cookies e outro pudim pro João quando ver ele?",
+    sim: "SIM",
+    nao: "NÃO"
+  }
+];
+
+let indice = 0;
+let respostas = [];
+
+function iniciarQuiz(){
+  mostrarPergunta();
+}
+
+function mostrarPergunta(){
+
+  if(indice >= perguntas.length){
+    finalizar();
+    return;
+  }
+
+  const p = perguntas[indice];
+
+  document.getElementById("conteudo").innerHTML = `
+    <h2>${p.pergunta}</h2>
+
+    <button class="btn sim" onclick="responder('${p.sim}')">
+      ${p.sim}
+    </button>
+
+    <button class="btn nao" id="btnNao">
+      ${p.nao}
+    </button>
+  `;
+
+  const btnNao = document.getElementById("btnNao");
+
+  btnNao.style.left = "60%";
+  btnNao.style.top = "70%";
+
+  btnNao.addEventListener("mouseover", fugir);
+}
+
+function fugir() {
+
+  const btn = document.getElementById("btnNao");
+  const card = document.getElementById("card");
+
+  // tamanho da área da card
+  const cardWidth = card.clientWidth;
+  const cardHeight = card.clientHeight;
+
+  // tamanho do botão
+  const btnWidth = btn.offsetWidth;
+  const btnHeight = btn.offsetHeight;
+
+  // margem
+  const margem = 10;
+
+  // limites seguros
+  const maxX = cardWidth - btnWidth - margem;
+  const maxY = cardHeight - btnHeight - margem;
+
+  // posição aleatória
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
+  btn.style.left = `${x}px`;
+  btn.style.top = `${y}px`;
+}
+
+function responder(resposta){
+
+  respostas.push({
+    pergunta: perguntas[indice].pergunta,
+    resposta: resposta
+  });
+
+  indice++;
+
+  mostrarPergunta();
+}
+
+function finalizar(){
+
+  document.getElementById("conteudo").innerHTML = `
+    <h1>Parabéns ❤️</h1>
+
+    <p>
+      Você concluiu a pesquisa oficial do relacionamento.
+    </p>
+
+    <p>
+      Abrindo relatório final...
+    </p>
+  `;
+
+  let html = `
+    <html>
+    <head>
+      <title>Resultado do Questionário</title>
+
+      <style>
+        body{
+          font-family: Arial;
+          background:#ffe6ec;
+          padding:40px;
+          color:#333;
+        }
+
+        h1{
+          color:#ff4f7b;
+        }
+
+        .card{
+          width:90%;
+          max-width:700px;
+          background: rgba(255,255,255,0.15);
+          backdrop-filter: blur(10px);
+          border-radius:25px;
+          padding:40px;
+          text-align:center;
+          box-shadow:0 10px 30px rgba(0,0,0,0.2);
+          position:relative;
+          overflow:hidden;
+        }
+
+        .resposta{
+          color:#ff4f7b;
+          font-weight:bold;
+          font-size:1.2rem;
+        }
+
+        .final{
+          margin-top:40px;
+          font-size:1.3rem;
+        }
+      </style>
+    </head>
+
+    <body>
+
+      <h1>Resultado Oficial da Pesquisa ❤️</h1>
+  `;
+
+  respostas.forEach(r => {
+
+    html += `
+      <div class="card">
+        <h2>${r.pergunta}</h2>
+
+        <p class="resposta">
+          Resposta: ${r.resposta}
+        </p>
+      </div>
+    `;
+  });
+
+  html += `
+      <div class="final">
+        Agora tire um print dessa tela e mande para o João 📸❤️
+      </div>
+
+    </body>
+    </html>
+  `;
+
+  const novaAba = window.open("", "_blank");
+
+  novaAba.document.write(html);
+
+}
+
+</script>
+
+</body>
+</html>
